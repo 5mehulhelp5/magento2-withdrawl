@@ -1,4 +1,4 @@
-# Zwernemann Withdrawal -- Widerrufsbutton fuer Magento 2
+# Widerrufsbutton fuer Magento 2
 
 > Magento 2 Erweiterung zur Umsetzung des EU-Widerrufsrechts per Button-Klick.
 > Entwickelt von **Zwernemann Medienentwicklung**.
