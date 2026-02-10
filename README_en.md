@@ -7,7 +7,7 @@
 
 ## What is it about?
 
-The EU Directive **(EU) 2023/2673** stipulates that in the future, consumers must be able to withdraw from online purchase contracts just as easily as they were concluded. **Starting June 19, 2026**, a clearly visible withdrawal button will be mandatory in online shops.
+The EU Directive **(EU) 2023/2673** requires that in the future, consumers must be able to withdraw from online purchase contracts just as easily as they were concluded. **Starting June 19, 2026**, a clearly visible withdrawal button will be mandatory in online shops.
 
 This Magento module provides exactly that: your customers can withdraw orders with just a few clicks – directly from their customer account or via a separate form for guest orders. As a shop operator, you maintain a full overview in the admin area.
 
