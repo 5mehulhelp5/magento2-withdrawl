@@ -146,7 +146,7 @@ Are you using a different Magento version? Let us know – we are happy to test 
 3. Check if the module is active:
 
    ``bash
-   php bin/magento module:status Zzwernemann_Withdrawal
+   php bin/magento module:status zwernemann_Withdrawal
    ```
 J### Via Composer
 
