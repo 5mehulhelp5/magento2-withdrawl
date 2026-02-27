@@ -251,7 +251,8 @@ The database table `zwernemann_withdrawal` remains and can be removed manually i
 
 ## Contact & Support
 
-**Zwernemann Medienentwicklung**
+**Zwernemann Medienentwicklung**\
+Martin Zwernemann\
 79730 Murg, Germany
 
 [To the website](https://www.zwernemann.de/widerrufsbutton-fuer-magento-2/)
