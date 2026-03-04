@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Zwernemann\Withdrawal\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
+use Magento\Sales\Model\ResourceModel\Order\Shipment\CollectionFactory as ShipmentCollectionFactory;
 use Magento\Store\Model\ScopeInterface;
 
 class Config extends AbstractHelper
@@ -14,6 +15,16 @@ class Config extends AbstractHelper
     const XML_PATH_EMAIL_TEMPLATE_CUSTOMER = 'zwernemann_withdrawal/email/customer_template';
     const XML_PATH_EMAIL_TEMPLATE_ADMIN = 'zwernemann_withdrawal/email/admin_template';
     const XML_PATH_EMAIL_SENDER = 'zwernemann_withdrawal/email/sender';
+
+    private ShipmentCollectionFactory $shipmentCollectionFactory;
+
+    public function __construct(
+        \Magento\Framework\App\Helper\Context $context,
+        ShipmentCollectionFactory $shipmentCollectionFactory
+    ) {
+        parent::__construct($context);
+        $this->shipmentCollectionFactory = $shipmentCollectionFactory;
+    }
 
     public function isEnabled($storeId = null): bool
     {
@@ -73,15 +84,36 @@ class Config extends AbstractHelper
         return $value ?: 'general';
     }
 
+    private function getLatestShipmentDate(\Magento\Sales\Api\Data\OrderInterface $order): ?\DateTime
+    {
+        $collection = $this->shipmentCollectionFactory->create();
+        $collection->setOrderFilter($order->getEntityId());
+        $collection->setOrder('created_at', 'DESC');
+        $collection->setPageSize(1);
+
+        $shipment = $collection->getFirstItem();
+
+        if ($shipment && $shipment->getId()) {
+            return new \DateTime($shipment->getCreatedAt());
+        }
+
+        return null;
+    }
+
     public function isWithdrawalAllowed(\Magento\Sales\Api\Data\OrderInterface $order): bool
     {
         if (!$this->isEnabled()) {
             return false;
         }
 
-        $orderDate = new \DateTime($order->getCreatedAt());
+        $shipmentDate = $this->getLatestShipmentDate($order);
+
+        if ($shipmentDate === null) {
+            return true; // Not yet shipped: always allowed before receipt of goods
+        }
+
         $now = new \DateTime();
-        $diff = $now->diff($orderDate);
+        $diff = $now->diff($shipmentDate);
         $daysDiff = (int) $diff->days;
 
         return $daysDiff <= $this->getWithdrawalPeriodDays();
@@ -89,8 +121,13 @@ class Config extends AbstractHelper
 
     public function getWithdrawalDeadline(\Magento\Sales\Api\Data\OrderInterface $order): string
     {
-        $orderDate = new \DateTime($order->getCreatedAt());
-        $orderDate->modify('+' . $this->getWithdrawalPeriodDays() . ' days');
-        return $orderDate->format('d.m.Y');
+        $shipmentDate = $this->getLatestShipmentDate($order);
+
+        if ($shipmentDate === null) {
+            return '';
+        }
+
+        $shipmentDate->modify('+' . $this->getWithdrawalPeriodDays() . ' days');
+        return $shipmentDate->format('d.m.Y');
     }
 }

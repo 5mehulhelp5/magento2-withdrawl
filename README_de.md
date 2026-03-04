@@ -33,7 +33,7 @@ Vor dem eigentlichen Widerruf sieht der Kunde eine Zusammenfassung seiner Bestel
 
 - Bestellnummer, Datum, Status, Gesamtbetrag
 - Alle bestellten Positionen mit Name, Artikelnummer, Menge und Preis
-- Bis wann der Widerruf moeglich ist
+- Bis wann der Widerruf moeglich ist (berechnet ab Versanddatum der letzten Lieferung)
 - Einen Button zum endgueltigen Absenden -- mit vorgeschalteter Sicherheitsabfrage
 
 **Gastbestellungen**
@@ -78,7 +78,7 @@ Im Admin unter *Stores > Configuration > Sales > Withdrawal Settings*:
 
 - Modul ein- und ausschalten
 - Empfaenger-Adresse fuer Benachrichtigungen festlegen
-- Widerrufsfrist in Tagen einstellen (Standard: 14)
+- Widerrufsfrist in Tagen einstellen, gezaehlt ab Versanddatum der letzten Lieferung (Standard: 14)
 - E-Mail-Absender und Vorlagen waehlen
 
 ### REST API
@@ -93,7 +93,7 @@ Zugriff ist per ACL-Berechtigung geschuetzt (`Zwernemann_Withdrawal::withdrawals
 
 ### Mehrsprachigkeit
 
-Komplett uebersetzt in **Deutsch** und **Englisch** (96 Zeichenketten). Weitere Sprachen koennen ueber eigene CSV-Dateien ergaenzt werden.
+Komplett uebersetzt in **Deutsch** und **Englisch** (97 Zeichenketten). Weitere Sprachen koennen ueber eigene CSV-Dateien ergaenzt werden.
 
 ---
 
@@ -206,6 +206,12 @@ Die Datenbanktabelle `zwernemann_withdrawal` bleibt erhalten und kann bei Bedarf
 ---
 
 ## Versionshistorie
+
+### 1.2.0
+
+- Widerrufsfrist beginnt nun ab dem Versanddatum der letzten Lieferung statt ab Bestelleingang (gesetzlich korrekt gemaess EU-Richtlinie 2011/83/EU)
+- Bei noch nicht versandten Bestellungen ist der Widerruf immer moeglich
+- Fristanzeige entsprechend aktualisiert
 
 ### 1.1.0
 
