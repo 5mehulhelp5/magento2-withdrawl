@@ -32,7 +32,7 @@ Refore the actual withdrawal, the customer sees a summary of their order:
 
 - Order number, date, status, total amount
 - All ordered items with name, SKU, quantity, and price
-- The deadline until which withdrawal is possible
+- The deadline until which withdrawal is possible, calculated from the date of the last shipment
 - A button for final submission ₓ with a preceding security confirmation
 
 **Guest orders**
@@ -77,7 +77,7 @@ In the admin under *Stores > Configuration > Sales > Withdrawal Settings*:
 
 - Enable/Disable the module
 - Set recipient address for notifications
-- Set withdrawal period in days (Default: 14)
+- Set withdrawal period in days, counted from the last shipment date (Default: 14)
 - Select email sender and templates
 
 ### REST API
@@ -92,7 +92,7 @@ Access is protected by ACL permission (`Zwernemann_Withdrawal::withdrawals`).
 
 ### Multilingualism
 
-Completely translated into **German** and **English** (96 strings). Further languages can be added via custom CSV files.
+Completely translated into **German** and **English** (97 strings). Further languages can be added via custom CSV files.
 
 ---
 
@@ -204,6 +204,12 @@ The database table `zwernemann_withdrawal` remains and can be removed manually i
 ---
 
 ## Version History
+
+### 1.2.0
+
+- Withdrawal period now starts from the date of the last shipment instead of the order date (legally correct under EU Directive 2011/83/EU)
+- If an order has not been shipped yet, withdrawal is always allowed
+- Withdrawal deadline display updated accordingly
 
 ### 1.1.0
 

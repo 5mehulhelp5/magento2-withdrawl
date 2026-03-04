@@ -76,11 +76,16 @@ $order = $block->getOrder();
                         <span><?= $block->escapeHtml(__('A withdrawal request has already been submitted for this order.')) ?></span>
                     </div>
                 <?php elseif ($block->isWithdrawalAllowed()): ?>
+                    <?php $deadline = $block->getWithdrawalDeadline(); ?>
                     <div class="withdrawal-deadline" style="margin-bottom: 15px;">
+                        <?php if ($deadline !== ''): ?>
                         <p>
                             <strong><?= $block->escapeHtml(__('Withdrawal deadline:')) ?></strong>
-                            <?= $block->escapeHtml($block->getWithdrawalDeadline()) ?>
+                            <?= $block->escapeHtml($deadline) ?>
                         </p>
+                        <?php else: ?>
+                        <p><?= $block->escapeHtml(__('This order has not been shipped yet. You may withdraw at any time until you receive the goods.')) ?></p>
+                        <?php endif; ?>
                         <p><?= $block->escapeHtml(__('By submitting the withdrawal, you declare that you wish to revoke the purchase contract for this order.')) ?></p>
                     </div>
                     <form method="post" action="<?= $block->escapeUrl($block->getSubmitUrl()) ?>" id="withdrawal-form">
