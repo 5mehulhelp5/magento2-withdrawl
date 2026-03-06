@@ -11,15 +11,6 @@ The EU Directive **(EU) 2023/2673** requires that in the future, consumers must 
 This Magento module provides exactly that: your customers can withdraw orders with just a few clicks – directly from their customer account or via a separate form for guest orders. As a shop operator, you maintain a full overview in the admin area.
 
 ---
-## Hyvä Theme Compatibility
-
-If you are using the Hyvä Theme, please install the Hyvä compatibility module:
-
-https://github.com/Zwernemann/magento2-withdrawl-hyva
-
-This module adds the required Hyvä frontend integration for the withdrawal button and ensures compatibility with the Hyvä template system.
-
-The base module remains required.
 
 ## What does the module do?
 
@@ -88,6 +79,16 @@ In the admin under *Stores > Configuration > Sales > Withdrawal Settings*:
 - Set recipient address for notifications
 - Set withdrawal period in days, counted from the last shipment date (Default: 14)
 - Select email sender and templates
+
+## Hyvä Theme Compatibility
+
+If you are using the Hyvä Theme, please install the Hyvä compatibility module:
+
+https://github.com/Zwernemann/magento2-withdrawl-hyva
+
+This module adds the required Hyvä frontend integration for the withdrawal button and ensures compatibility with the Hyvä template system.
+
+The base module remains required.
 
 ### REST API
 
