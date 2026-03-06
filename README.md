@@ -80,6 +80,8 @@ In the admin under *Stores > Configuration > Sales > Withdrawal Settings*:
 - Set withdrawal period in days, counted from the last shipment date (Default: 14)
 - Select email sender and templates
 
+---
+
 ## Hyvä Theme Compatibility
 
 If you are using the Hyvä Theme, please install the Hyvä compatibility module:
