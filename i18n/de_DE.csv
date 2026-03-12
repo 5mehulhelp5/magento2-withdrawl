@@ -93,5 +93,8 @@
 "If you have any questions, please contact us.","Bei Fragen kontaktieren Sie uns bitte."
 "A new withdrawal request has been submitted.","Ein neuer Widerruf wurde eingereicht."
 "Customer Name:","Kundenname:"
+"Allowed Order Statuses","Erlaubte Bestellstatus"
+"Withdrawal is only possible for orders with one of these statuses. Default: pending, processing, complete.","Widerruf ist nur für Bestellungen mit diesem Status möglich. Standard: pending, processing, complete."
+
 "Customer Email:","Kunden-E-Mail:"
 "Please review this withdrawal request and take the necessary steps.","Bitte pruefen Sie diesen Widerruf und leiten Sie die notwendigen Schritte ein."
