@@ -97,4 +97,4 @@
 "Please review this withdrawal request and take the necessary steps.","Please review this withdrawal request and take the necessary steps."
 "Allowed Order Statuses","Allowed Order Statuses"
 "Withdrawal is only possible for orders with one of these statuses. Default: pending, processing, complete.","Withdrawal is only possible for orders with one of these statuses. Default: pending, processing, complete."
-
+"Withdrawal is only possible for orders with one of these statuses.","Withdrawal is only possible for orders with one of these statuses."
