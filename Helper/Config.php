@@ -15,6 +15,7 @@ class Config extends AbstractHelper
     const XML_PATH_EMAIL_TEMPLATE_CUSTOMER = 'zwernemann_withdrawal/email/customer_template';
     const XML_PATH_EMAIL_TEMPLATE_ADMIN = 'zwernemann_withdrawal/email/admin_template';
     const XML_PATH_EMAIL_SENDER = 'zwernemann_withdrawal/email/sender';
+    const XML_PATH_ALLOWED_ORDER_STATUSES = 'zwernemann_withdrawal/general/allowed_order_statuses';
 
     private ShipmentCollectionFactory $shipmentCollectionFactory;
 
