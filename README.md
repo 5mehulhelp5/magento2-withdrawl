@@ -112,7 +112,7 @@ Completely translated into **German** and **English** (97 strings). Further lang
 
 |Component | Version|
 |---|---|
-| Magento 2 Open Source | 2.4.6 to 2.4.8-p1 |
+| Magento 2 Open Source | 2.4.6 to 2.4.8-p4 |
 | PHP | 7.4 or higher |
 
 Are you using a different Magento version? Let us know – we are happy to test it.
