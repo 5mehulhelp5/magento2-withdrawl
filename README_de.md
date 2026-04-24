@@ -81,6 +81,18 @@ Im Admin unter *Stores > Configuration > Sales > Withdrawal Settings*:
 - Widerrufsfrist in Tagen einstellen, gezaehlt ab Versanddatum der letzten Lieferung (Standard: 14)
 - E-Mail-Absender und Vorlagen waehlen
 
+---
+
+## Hyvä-Theme-Kompatibilität
+
+Wenn Sie das Hyvä-Theme verwenden, installieren Sie bitte das Hyvä-Kompatibilitätsmodul:
+
+https://github.com/Zwernemann/magento2-withdrawl-hyva
+
+Dieses Modul ergänzt die erforderliche Hyvä-Frontend-Integration für den Widerrufs-Button und stellt die Kompatibilität mit dem Hyvä-Template-System sicher.
+
+Das Basismodul bleibt weiterhin erforderlich.
+
 ### REST API
 
 Widerrufseintraege lassen sich auch programmatisch abrufen:
