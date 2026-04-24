@@ -264,7 +264,6 @@ Die Datenbanktabelle `zwernemann_withdrawal` bleibt erhalten und kann bei Bedarf
 
 ## Geplant
 
-- Hyva-Theme-Kompatibilitaet pruefen und sicherstellen
 - REST API um Schreibzugriffe erweitern
 - Individuelle Widerrufsfristen pro Produkt (ueber Produktattribute)
 
