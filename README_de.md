@@ -7,7 +7,7 @@
 
 ## Worum geht es?
 
-Die EU-Richtlinie **(EU) 2023/2673** schreibt vor, dass Verbraucher Online-Kaufvertraege kuenftig genauso einfach widerrufen koennen muessen, wie sie abgeschlossen wurden. **Ab dem 19. Juni 2026** ist ein gut sichtbarer Widerrufsbutton in Online-Shops Pflicht.
+Die EU-Richtlinie **(EU) 2023/2673** schreibt vor, dass Verbraucher Online-Kaufvertraege künftig genauso einfach widerrufen koennen muessen, wie sie abgeschlossen wurden. **Ab dem 19. Juni 2026** ist ein gut sichtbarer Widerrufsbutton in Online-Shops Pflicht.
 
 Dieses Magento 2 Modul liefert genau das: Ihre Kunden koennen Bestellungen mit wenigen Klicks widerrufen -- direkt aus dem Kundenkonto oder ueber ein separates Formular fuer Gastbestellungen. Sie als Shopbetreiber behalten dabei den vollen Ueberblick im Adminbereich.
 
@@ -15,7 +15,7 @@ Dieses Magento 2 Modul liefert genau das: Ihre Kunden koennen Bestellungen mit w
 
 ## Was macht das Modul?
 
-### Fuer Ihre Kunden
+### Für Ihre Kunden
 
 **Widerrufsbutton in der Bestelluebersicht**
 
@@ -25,7 +25,7 @@ In der Ansicht *Mein Konto > Meine Bestellungen* erscheint pro Bestellung eine n
 - Den Hinweis **"Widerruf eingereicht"**, falls bereits widerrufen wurde
 - Den Hinweis **"Frist abgelaufen"**, wenn die Widerrufsfrist verstrichen ist
 
-Zusaetzlich wird auf der Bestelldetailseite ein **"Bestellung widerrufen"**-Button angezeigt.
+Zusätzlich wird auf der Bestelldetailseite ein **"Bestellung widerrufen"**-Button angezeigt.
 
 **Widerrufs-Detailseite**
 
@@ -46,11 +46,11 @@ Erreichbar unter: `/withdrawal/guest/search`
 
 Nach dem Absenden wird der Kunde auf eine Erfolgsseite weitergeleitet. Dort wird bestaetigt, dass der Widerruf eingegangen ist und eine E-Mail unterwegs ist.
 
-### Fuer Sie als Shopbetreiber
+### Für Sie als Shopbetreiber
 
 **Admin-Uebersicht aller Widerrufe**
 
-Unter *Verkaeufe > Withdrawals* finden Sie eine tabellarische Uebersicht saemtlicher eingegangener Widerrufe:
+Unter *Verkäufe > Withdrawals* finden Sie eine tabellarische Uebersicht saemtlicher eingegangener Widerrufe:
 
 - ID, Bestellnummer, Kundenname, E-Mail
 - Status (Ausstehend / Bestaetigt / Abgelehnt)
@@ -66,7 +66,7 @@ Sobald ein Widerruf eingeht, werden zwei E-Mails verschickt:
 1. **An den Kunden** -- Bestaetigung mit Bestelldetails
 2. **An Sie** -- Benachrichtigung mit allen relevanten Daten
 
-Zusaetzlich erhalten Sie eine BCC-Kopie der Kundenmail. Die E-Mail-Vorlagen lassen sich im Admin anpassen.
+Zusätzlich erhalten Sie eine BCC-Kopie der Kundenmail. Die E-Mail-Vorlagen lassen sich im Admin anpassen.
 
 **Vermerk in der Bestellung**
 
