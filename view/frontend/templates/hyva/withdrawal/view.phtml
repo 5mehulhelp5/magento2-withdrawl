@@ -1,0 +1,245 @@
+<?php
+/** @var \Zwernemann\Withdrawal\Block\Withdrawal\View $block */
+$order = $block->getOrder();
+$withdrawnItemIds = $block->getWithdrawnOrderItemIds();
+$partialAllowed = $block->isPartialWithdrawalAllowed();
+
+// Order item ids that can still be withdrawn – used to seed the Alpine selection state.
+$selectableItemIds = [];
+if ($order) {
+    foreach ($order->getAllVisibleItems() as $visibleItem) {
+        $visibleItemId = (int) $visibleItem->getItemId();
+        if (!in_array($visibleItemId, $withdrawnItemIds, true)) {
+            $selectableItemIds[] = $visibleItemId;
+        }
+    }
+}
+?>
+<?php if ($order): ?>
+<div class="container mx-auto py-6">
+    <div class="bg-white rounded shadow">
+        <div class="border-b px-6 py-4">
+            <h2 class="text-xl font-semibold">
+                <?= $block->escapeHtml(__('Withdrawal for Order #%1', $order->getIncrementId())) ?>
+            </h2>
+        </div>
+        <div class="p-6">
+
+            <!-- Order details -->
+            <div class="mb-6">
+                <table class="w-full text-sm">
+                    <tbody>
+                        <tr class="border-b">
+                            <th class="text-left py-2 pr-4 text-gray-600 w-48"><?= $block->escapeHtml(__('Order Number')) ?></th>
+                            <td class="py-2">#<?= $block->escapeHtml($order->getIncrementId()) ?></td>
+                        </tr>
+                        <tr class="border-b">
+                            <th class="text-left py-2 pr-4 text-gray-600"><?= $block->escapeHtml(__('Order Date')) ?></th>
+                            <td class="py-2"><?= $block->escapeHtml($block->getFormattedDate($order->getCreatedAt())) ?></td>
+                        </tr>
+                        <tr class="border-b">
+                            <th class="text-left py-2 pr-4 text-gray-600"><?= $block->escapeHtml(__('Order Status')) ?></th>
+                            <td class="py-2"><?= $block->escapeHtml($order->getStatusLabel()) ?></td>
+                        </tr>
+                        <tr>
+                            <th class="text-left py-2 pr-4 text-gray-600"><?= $block->escapeHtml(__('Order Total')) ?></th>
+                            <td class="py-2"><?= /* @noEscape */ $order->formatPrice($order->getGrandTotal()) ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <?php if ($block->hasPartialWithdrawal()): ?>
+            <div class="mb-6 p-4 bg-amber-50 border border-amber-200 rounded text-amber-800">
+                <span><?= $block->escapeHtml(__('Some items from this order have already been withdrawn. The items marked below are no longer available for withdrawal.')) ?></span>
+            </div>
+            <?php endif; ?>
+
+            <!-- Withdrawal section -->
+            <div class="mt-8 p-5 bg-gray-50 rounded border border-gray-200">
+                <?php if ($block->hasExistingWithdrawal()): ?>
+                    <div class="p-4 bg-blue-50 border border-blue-200 rounded text-blue-800">
+                        <span><?= $block->escapeHtml(__('All items of this order have already been withdrawn.')) ?></span>
+                        <?php $statusLabel = $block->getWithdrawalStatusLabel(); ?>
+                        <?php if ($statusLabel !== null): ?>
+                            <br/>
+                            <strong><?= $block->escapeHtml(__('Withdrawal')) ?>:</strong>
+                            <?= $block->escapeHtml($statusLabel) ?>
+                        <?php endif; ?>
+                    </div>
+                <?php elseif ($block->isWithdrawalAllowed()): ?>
+                    <?php $deadline = $block->getWithdrawalDeadline(); ?>
+
+                    <div x-data="{
+                            showConfirm: false,
+                            selected: {<?php foreach ($selectableItemIds as $sid): ?>'<?= $sid ?>': true,<?php endforeach; ?>},
+                            get selectedCount() { return Object.values(this.selected).filter(Boolean).length; },
+                            get totalSelectable() { return Object.keys(this.selected).length; },
+                            get allSelected() { return this.totalSelectable > 0 && this.selectedCount === this.totalSelectable; },
+                            get noneSelected() { return this.selectedCount === 0; },
+                            toggleAll(value) { for (const key in this.selected) { this.selected[key] = value; } }
+                        }">
+
+                        <div class="mb-4">
+                            <?php if ($deadline !== ''): ?>
+                            <p class="mb-2">
+                                <strong><?= $block->escapeHtml(__('Withdrawal deadline:')) ?></strong>
+                                <?= $block->escapeHtml($deadline) ?>
+                            </p>
+                            <?php else: ?>
+                            <p class="mb-2"><?= $block->escapeHtml(__('This order has not been shipped yet. You may withdraw at any time until you receive the goods.')) ?></p>
+                            <?php endif; ?>
+                            <?php if ($partialAllowed): ?>
+                            <p><?= $block->escapeHtml(__('Select the items you wish to withdraw. You may withdraw individual items (partial withdrawal) or all items at once.')) ?></p>
+                            <?php else: ?>
+                            <p><?= $block->escapeHtml(__('By submitting the withdrawal, you declare that you wish to revoke the purchase contract for this order.')) ?></p>
+                            <?php endif; ?>
+                        </div>
+
+                        <form method="post" action="<?= $block->escapeUrl($block->getSubmitUrl()) ?>" id="withdrawal-form">
+                            <?= /* @noEscape */ $block->getBlockHtml('formkey') ?>
+                            <input type="hidden" name="order_id" value="<?= (int) $order->getEntityId() ?>"/>
+                            <?php if ($block->isGuest()): ?>
+                                <input type="hidden" name="guest" value="1"/>
+                                <input type="hidden" name="guest_email" value="<?= $block->escapeHtmlAttr($block->getGuestEmail()) ?>"/>
+                            <?php endif; ?>
+
+                            <h3 class="font-semibold mb-3"><?= $block->escapeHtml(__('Select Items to Withdraw')) ?></h3>
+                            <table class="w-full text-sm">
+                                <thead>
+                                    <tr class="bg-gray-100">
+                                        <?php if ($partialAllowed): ?>
+                                        <th class="text-left p-2 w-10">
+                                            <input type="checkbox"
+                                                   title="<?= $block->escapeHtmlAttr(__('Select All')) ?>"
+                                                   class="align-middle"
+                                                   :checked="allSelected"
+                                                   x-effect="$el.indeterminate = selectedCount > 0 && !allSelected"
+                                                   @change="toggleAll($event.target.checked)"/>
+                                        </th>
+                                        <?php endif; ?>
+                                        <th class="text-left p-2"><?= $block->escapeHtml(__('Product Name')) ?></th>
+                                        <th class="text-left p-2"><?= $block->escapeHtml(__('SKU')) ?></th>
+                                        <th class="text-left p-2"><?= $block->escapeHtml(__('Qty Ordered')) ?></th>
+                                        <?php if ($partialAllowed): ?>
+                                        <th class="text-left p-2"><?= $block->escapeHtml(__('Qty to Withdraw')) ?></th>
+                                        <?php endif; ?>
+                                        <th class="text-left p-2"><?= $block->escapeHtml(__('Price')) ?></th>
+                                        <th class="text-left p-2"><?= $block->escapeHtml(__('Subtotal')) ?></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($order->getAllVisibleItems() as $item): ?>
+                                    <?php
+                                    $itemId = (int) $item->getItemId();
+                                    $isWithdrawn = in_array($itemId, $withdrawnItemIds, true);
+                                    $qtyOrdered = (int) $item->getQtyOrdered();
+                                    ?>
+                                    <tr class="border-b<?= $isWithdrawn ? ' bg-gray-100 text-gray-400' : '' ?>">
+                                        <?php if ($partialAllowed): ?>
+                                        <td class="p-2 align-middle">
+                                            <?php if ($isWithdrawn): ?>
+                                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs bg-gray-200 text-gray-600">
+                                                    <?= $block->escapeHtml(__('Withdrawn')) ?>
+                                                </span>
+                                            <?php else: ?>
+                                                <input type="checkbox"
+                                                       name="selected_items[]"
+                                                       value="<?= $itemId ?>"
+                                                       class="align-middle"
+                                                       x-model="selected['<?= $itemId ?>']"/>
+                                            <?php endif; ?>
+                                        </td>
+                                        <?php elseif (!$isWithdrawn): ?>
+                                            <input type="hidden" name="selected_items[]" value="<?= $itemId ?>"/>
+                                        <?php endif; ?>
+                                        <td class="p-2" data-th="<?= $block->escapeHtmlAttr(__('Product Name')) ?>"><?= $block->escapeHtml($item->getName()) ?></td>
+                                        <td class="p-2" data-th="<?= $block->escapeHtmlAttr(__('SKU')) ?>"><?= $block->escapeHtml($item->getSku()) ?></td>
+                                        <td class="p-2" data-th="<?= $block->escapeHtmlAttr(__('Qty Ordered')) ?>"><?= $qtyOrdered ?></td>
+                                        <?php if ($partialAllowed): ?>
+                                        <td class="p-2" data-th="<?= $block->escapeHtmlAttr(__('Qty to Withdraw')) ?>">
+                                            <?php if (!$isWithdrawn): ?>
+                                                <input type="number"
+                                                       name="item_qty[<?= $itemId ?>]"
+                                                       value="<?= $qtyOrdered ?>"
+                                                       min="1"
+                                                       max="<?= $qtyOrdered ?>"
+                                                       class="w-20 border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:text-gray-400"
+                                                       :disabled="!selected['<?= $itemId ?>']"/>
+                                            <?php else: ?>
+                                                &mdash;
+                                            <?php endif; ?>
+                                        </td>
+                                        <?php endif; ?>
+                                        <td class="p-2" data-th="<?= $block->escapeHtmlAttr(__('Price')) ?>"><?= /* @noEscape */ $order->formatPrice($block->getItemDisplayPrice($item)) ?></td>
+                                        <td class="p-2" data-th="<?= $block->escapeHtmlAttr(__('Subtotal')) ?>"><?= /* @noEscape */ $order->formatPrice($block->getItemDisplayRowTotal($item)) ?></td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+
+                            <div class="flex flex-wrap gap-4 mt-6">
+                                <button type="button"
+                                        @click="showConfirm = true"
+                                        :disabled="noneSelected"
+                                        class="btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed">
+                                    <span><?= $block->escapeHtml(__('Submit Withdrawal')) ?></span>
+                                </button>
+                                <a href="<?= $block->escapeUrl($block->getUrl('sales/order/history')) ?>"
+                                   class="btn btn-secondary">
+                                    <span><?= $block->escapeHtml(__('Back')) ?></span>
+                                </a>
+                            </div>
+                        </form>
+
+                        <!-- Confirmation modal -->
+                        <div x-show="showConfirm"
+                             x-transition
+                             style="display: none;"
+                             class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+                             @keydown.escape.window="showConfirm = false">
+                            <div class="bg-white rounded shadow-xl p-6 max-w-md w-full mx-4"
+                                 @click.stop>
+                                <h3 class="text-lg font-semibold mb-3">
+                                    <?= $block->escapeHtml(__('Confirm Withdrawal')) ?>
+                                </h3>
+                                <p class="text-gray-600 mb-6">
+                                    <?php if ($partialAllowed): ?>
+                                    <span x-show="!allSelected"><?= $block->escapeHtml(__('Are you sure you want to withdraw the selected items? This action cannot be undone.')) ?></span>
+                                    <span x-show="allSelected"><?= $block->escapeHtml(__('Are you sure you want to withdraw all items of this order? This action cannot be undone.')) ?></span>
+                                    <?php else: ?>
+                                    <span><?= $block->escapeHtml(__('Are you sure you want to submit the withdrawal for this order? This action cannot be undone.')) ?></span>
+                                    <?php endif; ?>
+                                </p>
+                                <div class="flex gap-3 justify-end">
+                                    <button type="button"
+                                            @click="showConfirm = false"
+                                            class="btn btn-secondary">
+                                        <?= $block->escapeHtml(__('Cancel')) ?>
+                                    </button>
+                                    <button type="button"
+                                            @click="document.getElementById('withdrawal-form').submit()"
+                                            class="btn btn-primary">
+                                        <?= $block->escapeHtml(__('Yes, Submit Withdrawal')) ?>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                <?php else: ?>
+                    <div class="p-4 bg-yellow-50 border border-yellow-200 rounded text-yellow-800">
+                        <span><?= $block->escapeHtml(__('The withdrawal period for this order has expired. The deadline was: %1', $block->getWithdrawalDeadline())) ?></span>
+                    </div>
+                <?php endif; ?>
+            </div>
+
+        </div>
+    </div>
+</div>
+<?php else: ?>
+<div class="p-4 bg-blue-50 border border-blue-200 rounded text-blue-800">
+    <span><?= $block->escapeHtml(__('The order could not be found.')) ?></span>
+</div>
+<?php endif; ?>

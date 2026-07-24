@@ -1,0 +1,27 @@
+<?php
+/** @var \Zwernemann\Withdrawal\Block\Order\WithdrawalButton $block */
+$order = $block->getParentBlock() ? $block->getParentBlock()->getOrder() : null;
+$statusClasses = [
+    'pending' => 'text-amber-600',
+    'confirmed' => 'text-green-600',
+    'rejected' => 'text-red-600',
+];
+?>
+<?php if ($order && $block->isEnabled()): ?>
+    <?php $orderId = (int) $order->getId(); ?>
+    <?php $withdrawal = $block->getWithdrawal($orderId); ?>
+    <?php if ($withdrawal !== null): ?>
+        <?php $status = (string) $withdrawal->getData('status'); ?>
+        <a href="<?= $block->escapeUrl($block->getViewUrl($orderId)) ?>"
+           class="font-semibold <?= $block->escapeHtmlAttr($statusClasses[$status] ?? 'text-gray-600') ?>"
+           title="<?= $block->escapeHtmlAttr(__('Withdrawal')) ?>">
+            <span><?= $block->escapeHtml($withdrawal->getStatusLabel()) ?></span>
+        </a>
+    <?php elseif ($block->isWithdrawalAllowed($order)): ?>
+        <a href="<?= $block->escapeUrl($block->getViewUrl($orderId)) ?>"
+           class="btn btn-primary"
+           title="<?= $block->escapeHtmlAttr(__('Withdraw Order')) ?>">
+            <span><?= $block->escapeHtml(__('Withdraw Order')) ?></span>
+        </a>
+    <?php endif; ?>
+<?php endif; ?>

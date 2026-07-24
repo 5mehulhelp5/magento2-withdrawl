@@ -1,0 +1,34 @@
+<?php
+/** @var \Zwernemann\Withdrawal\Block\Order\WithdrawalButton $block */
+$order = $block->getOrder();
+$statusClasses = [
+    'pending' => 'text-amber-600',
+    'confirmed' => 'text-green-600',
+    'rejected' => 'text-red-600',
+];
+?>
+<?php if ($order && $block->isEnabled()): ?>
+    <td class="col withdrawal" data-th="<?= $block->escapeHtmlAttr(__('Withdrawal')) ?>">
+        <?php $withdrawal = $block->getWithdrawal((int) $order->getEntityId()); ?>
+        <?php if ($withdrawal !== null): ?>
+            <?php $status = (string) $withdrawal->getData('status'); ?>
+            <a href="<?= $block->escapeUrl($block->getViewUrl((int) $order->getEntityId())) ?>"
+               class="text-sm font-semibold <?= $block->escapeHtmlAttr($statusClasses[$status] ?? 'text-gray-500') ?>"
+               title="<?= $block->escapeHtmlAttr(__('Withdrawal')) ?>">
+                <?= $block->escapeHtml($withdrawal->getStatusLabel()) ?>
+            </a>
+        <?php elseif ($block->isWithdrawalAllowed($order)): ?>
+            <a href="<?= $block->escapeUrl($block->getViewUrl((int) $order->getEntityId())) ?>"
+               class="btn btn-primary btn-sm text-sm py-1 px-3"
+               title="<?= $block->escapeHtmlAttr(__('Withdraw Order')) ?>">
+                <span><?= $block->escapeHtml(__('Withdraw')) ?></span>
+            </a>
+        <?php else: ?>
+            <span class="text-sm text-gray-400">
+                <?= $block->escapeHtml(__('Period expired')) ?>
+            </span>
+        <?php endif; ?>
+    </td>
+<?php elseif ($order): ?>
+    <td class="col withdrawal">&nbsp;</td>
+<?php endif; ?>
