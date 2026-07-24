@@ -314,7 +314,7 @@ The database tables `zwernemann_withdrawal` and `zwernemann_withdrawal_items` re
 
 ## Version History
 
-### 1.9.2
+### 1.9.3
 - Hyvä theme compatibility is now built directly into the module — the separate package `zwernemann/module-withdrawal-hyva` is no longer required
 - When a Hyvä theme is active, the withdrawal frontend automatically uses Tailwind CSS / Alpine.js templates; Luma stores keep the classic templates
 - Existing installations that require the old Hyvä package keep working via a Composer `replace` alias
