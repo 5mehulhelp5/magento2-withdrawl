@@ -1,0 +1,38 @@
+<?php
+/** @var \Zwernemann\Withdrawal\Block\Withdrawal\Success $block */
+$order = $block->getOrder();
+?>
+<div class="container mx-auto py-10">
+    <div class="bg-white rounded shadow p-8 text-center max-w-lg mx-auto">
+        <div class="text-green-500 text-6xl mb-6">
+            &#10003;
+        </div>
+        <h2 class="text-2xl font-semibold mb-4">
+            <?= $block->escapeHtml(__('Withdrawal Successfully Submitted')) ?>
+        </h2>
+        <?php if ($order): ?>
+            <p class="text-gray-700 mt-4">
+                <?= $block->escapeHtml(__(
+                    'Your withdrawal request for order #%1 has been received.',
+                    $order->getIncrementId()
+                )) ?>
+            </p>
+        <?php endif; ?>
+        <p class="text-gray-600 mt-3">
+            <?= $block->escapeHtml(__('You will receive a confirmation email shortly.')) ?>
+        </p>
+        <p class="text-gray-600 mt-3">
+            <?= $block->escapeHtml(__('The shop will contact you regarding the next steps (e.g. return of goods, refund).')) ?>
+        </p>
+        <div class="flex flex-wrap gap-4 justify-center mt-8">
+            <a href="<?= $block->escapeUrl($block->getOrderHistoryUrl()) ?>"
+               class="btn btn-primary">
+                <span><?= $block->escapeHtml(__('Back to My Orders')) ?></span>
+            </a>
+            <a href="<?= $block->escapeUrl($block->getHomeUrl()) ?>"
+               class="btn btn-secondary">
+                <span><?= $block->escapeHtml(__('Continue Shopping')) ?></span>
+            </a>
+        </div>
+    </div>
+</div>
