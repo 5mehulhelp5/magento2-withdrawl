@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="zwernemann.withdrawal.column.header">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Zwernemann_Withdrawal::hyva/order/history/column_header.phtml</argument>
+            </action>
+        </referenceBlock>
+        <referenceBlock name="zwernemann.withdrawal.history.button">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Zwernemann_Withdrawal::hyva/order/history/withdrawal_button.phtml</argument>
+            </action>
+        </referenceBlock>
+    </body>
+</page>
