@@ -101,13 +101,11 @@ Im Admin unter *Stores > Configuration > Sales > Withdrawal Settings*:
 
 ## Hyvä-Theme-Kompatibilität
 
-Wenn Sie das Hyvä-Theme verwenden, installieren Sie bitte das Hyvä-Kompatibilitätsmodul:
+Die Hyvä-Theme-Unterstützung ist jetzt direkt in dieses Modul integriert — ein separates Paket ist nicht mehr erforderlich.
 
-https://github.com/Zwernemann/magento2-withdrawl-hyva
+Sobald ein Hyvä-Theme aktiv ist, wird das Widerrufs-Frontend (Bestellansicht, Bestellhistorie, Gastsuche, Widerrufs- und Erfolgsseite) automatisch mit Tailwind-CSS- und Alpine.js-Templates dargestellt. Bei einem Standard-Luma-Theme werden weiterhin die klassischen Templates verwendet. Eine Konfiguration ist nicht nötig.
 
-Dieses Modul ergänzt die erforderliche Hyvä-Frontend-Integration für den Widerrufs-Button und stellt die Kompatibilität mit dem Hyvä-Template-System sicher.
-
-Das Basismodul bleibt weiterhin erforderlich.
+> **Hinweis:** Das frühere separate Paket `zwernemann/module-withdrawal-hyva` ist veraltet. Seine Funktionalität wurde in dieses Modul überführt. Bestehende Installationen, die `zwernemann/module-withdrawal-hyva` voraussetzen, funktionieren weiterhin über einen Composer-`replace`-Alias, der einfach dieses Modul einbindet.
 
 ### REST API
 
@@ -235,14 +233,6 @@ Die Datenbanktabellen `zwernemann_withdrawal` und `zwernemann_withdrawal_items` 
 
 ## Versionshistorie
 
-### 1.9.1
-
-- Neu: Kunden sehen jetzt den Status ihres Widerrufs (Ausstehend / Bestaetigt / Abgelehnt) in der Bestelluebersicht, auf der Bestellseite und auf der Widerrufsseite, inkl. Link zur Widerrufsseite (#57)
-- Fix: Die Positionen im Widerrufsformular zeigen nun Bruttopreise (inkl. MwSt.) gemaess der Steuer-Anzeige-Einstellung des Shops statt Nettopreise (#64)
-- Fix: Der Filter "Erlaubte Bestellstatus" wird jetzt auch fuer noch nicht versandte Bestellungen angewendet (vorher konnten diese ihn umgehen) (#63)
-- Fix: Virtuelle Bestellungen werden bei der Widerrufs-Pruefung nun korrekt behandelt
-- Fix: Die Widerrufs-Bestaetigungsmail zeigt jetzt das exakte Einreichungsdatum samt Uhrzeit in der Shop-Zeitzone, wie von Art. 11a(4) der Richtlinie 2011/83/EU gefordert (#61)
-  
 ### 1.9.0
 
 - Added  REST endpoints for headless storefronts, custom forms, and integrations
