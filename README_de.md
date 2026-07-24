@@ -235,6 +235,14 @@ Die Datenbanktabellen `zwernemann_withdrawal` und `zwernemann_withdrawal_items` 
 
 ## Versionshistorie
 
+### 1.9.1
+
+- Neu: Kunden sehen jetzt den Status ihres Widerrufs (Ausstehend / Bestaetigt / Abgelehnt) in der Bestelluebersicht, auf der Bestellseite und auf der Widerrufsseite, inkl. Link zur Widerrufsseite (#57)
+- Fix: Die Positionen im Widerrufsformular zeigen nun Bruttopreise (inkl. MwSt.) gemaess der Steuer-Anzeige-Einstellung des Shops statt Nettopreise (#64)
+- Fix: Der Filter "Erlaubte Bestellstatus" wird jetzt auch fuer noch nicht versandte Bestellungen angewendet (vorher konnten diese ihn umgehen) (#63)
+- Fix: Virtuelle Bestellungen werden bei der Widerrufs-Pruefung nun korrekt behandelt
+- Fix: Die Widerrufs-Bestaetigungsmail zeigt jetzt das exakte Einreichungsdatum samt Uhrzeit in der Shop-Zeitzone, wie von Art. 11a(4) der Richtlinie 2011/83/EU gefordert (#61)
+  
 ### 1.9.0
 
 - Added  REST endpoints for headless storefronts, custom forms, and integrations
