@@ -314,6 +314,11 @@ The database tables `zwernemann_withdrawal` and `zwernemann_withdrawal_items` re
 
 ## Version History
 
+### 1.9.2
+- Hyvä theme compatibility is now built directly into the module — the separate package `zwernemann/module-withdrawal-hyva` is no longer required
+- When a Hyvä theme is active, the withdrawal frontend automatically uses Tailwind CSS / Alpine.js templates; Luma stores keep the classic templates
+- Existing installations that require the old Hyvä package keep working via a Composer `replace` alias
+
 ### 1.9.1
 - New: customers can now see the status of their withdrawal (Pending / Confirmed / Rejected) in the order history, on the order view page, and on the withdrawal page, with a link to the withdrawal page (#57)
 - Fix: withdrawal form line items now show gross prices (incl. VAT) according to the store's tax display setting instead of net prices (#64)
